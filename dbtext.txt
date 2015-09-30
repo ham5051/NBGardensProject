@@ -1,0 +1,166 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `mydb` ;
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Product`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Product` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Product` (
+  `productid` INT NOT NULL COMMENT '',
+  `productname` VARCHAR(45) NOT NULL COMMENT '',
+  `price` DECIMAL(7,2) NULL COMMENT '',
+  PRIMARY KEY (`productid`)  COMMENT '')
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Employee`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Employee` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Employee` (
+  `employeeid` INT NOT NULL COMMENT '',
+  `employeename` VARCHAR(45) NOT NULL COMMENT '',
+  `job` VARCHAR(45) NOT NULL COMMENT '',
+  `employeephone` INT NULL COMMENT '',
+  `employeeaddress` VARCHAR(45) NULL COMMENT '',
+  `employeeusername` VARCHAR(45) NOT NULL COMMENT '',
+  `employeepassword` VARCHAR(45) NOT NULL COMMENT '',
+  PRIMARY KEY (`employeeid`)  COMMENT '')
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Order`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Order` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Order` (
+  `orderid` INT NOT NULL COMMENT '',
+  `orderdate` DATE NOT NULL COMMENT '',
+  `ordertotal` DECIMAL(7,2) NOT NULL COMMENT '',
+  `Employee_employeeid` INT NOT NULL COMMENT '',
+  `order_type` VARCHAR(45) NOT NULL COMMENT '',
+  PRIMARY KEY (`orderid`, `Employee_employeeid`)  COMMENT '',
+  CONSTRAINT `fk_Order_Employee1`
+    FOREIGN KEY (`Employee_employeeid`)
+    REFERENCES `mydb`.`Employee` (`employeeid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`OrderProduct`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`OrderProduct` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`OrderProduct` (
+  `orderproductid` INT NOT NULL COMMENT '',
+  `Order_orderid` INT NOT NULL COMMENT '',
+  `Product_productid` INT NOT NULL COMMENT '',
+  `porusware` VARCHAR(45) NOT NULL COMMENT '',
+  `quantity` INT NULL COMMENT '',
+  PRIMARY KEY (`orderproductid`)  COMMENT '',
+  CONSTRAINT `fk_OrderProduct_Product`
+    FOREIGN KEY (`Product_productid`)
+    REFERENCES `mydb`.`Product` (`productid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_OrderProduct_Order1`
+    FOREIGN KEY (`Order_orderid`)
+    REFERENCES `mydb`.`Order` (`orderid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Inventory`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Inventory` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Inventory` (
+  `inventoryid` INT NOT NULL COMMENT '',
+  `location` VARCHAR(45) NULL COMMENT '',
+  `stocklevel` INT NULL COMMENT '',
+  `Product_productid` INT NOT NULL COMMENT '',
+  PRIMARY KEY (`inventoryid`, `Product_productid`)  COMMENT '',
+  CONSTRAINT `fk_Inventory_Product1`
+    FOREIGN KEY (`Product_productid`)
+    REFERENCES `mydb`.`Product` (`productid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`Product`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`Product` (`productid`, `productname`, `price`) VALUES (01, 'robognome', 5);
+INSERT INTO `mydb`.`Product` (`productid`, `productname`, `price`) VALUES (02, 'biggnome', 5);
+INSERT INTO `mydb`.`Product` (`productid`, `productname`, `price`) VALUES (03, 'littlegnome', 5);
+INSERT INTO `mydb`.`Product` (`productid`, `productname`, `price`) VALUES (04, 'nudeygnome', 5);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`Employee`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`Employee` (`employeeid`, `employeename`, `job`, `employeephone`, `employeeaddress`, `employeeusername`, `employeepassword`) VALUES (01, 'Ben Back', 'WHO', 012018928, '03 barrack street', 'buser', 'password');
+INSERT INTO `mydb`.`Employee` (`employeeid`, `employeename`, `job`, `employeephone`, `employeeaddress`, `employeeusername`, `employeepassword`) VALUES (02, 'CJ', 'WHO', 9291237, '19 grove street', 'cuser', 'password');
+INSERT INTO `mydb`.`Employee` (`employeeid`, `employeename`, `job`, `employeephone`, `employeeaddress`, `employeeusername`, `employeepassword`) VALUES (03, 'Al Stock', 'Manager', 37892378, '21 main street', 'auser', 'password');
+
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`Order`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`Order` (`orderid`, `orderdate`, `ordertotal`, `Employee_employeeid`, `order_type`) VALUES (01, '23/09/2015', 10, 01, 'customer');
+INSERT INTO `mydb`.`Order` (`orderid`, `orderdate`, `ordertotal`, `Employee_employeeid`, `order_type`) VALUES (02, '23/09/2015', 10, 01, 'customer');
+INSERT INTO `mydb`.`Order` (`orderid`, `orderdate`, `ordertotal`, `Employee_employeeid`, `order_type`) VALUES (03, '23/09/2015', 10, 02, 'stock');
+INSERT INTO `mydb`.`Order` (`orderid`, `orderdate`, `ordertotal`, `Employee_employeeid`, `order_type`) VALUES (04, '23/09/2015', 10, 03, 'stock');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`OrderProduct`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`OrderProduct` (`orderproductid`, `Order_orderid`, `Product_productid`, `porusware`, `quantity`) VALUES (01, 01, 01, 'no', 1);
+INSERT INTO `mydb`.`OrderProduct` (`orderproductid`, `Order_orderid`, `Product_productid`, `porusware`, `quantity`) VALUES (02, 01, 02, 'no', 1);
+INSERT INTO `mydb`.`OrderProduct` (`orderproductid`, `Order_orderid`, `Product_productid`, `porusware`, `quantity`) VALUES (03, 02, 02, 'no', 2);
+INSERT INTO `mydb`.`OrderProduct` (`orderproductid`, `Order_orderid`, `Product_productid`, `porusware`, `quantity`) VALUES (04, 03, 03, 'no', 2);
+INSERT INTO `mydb`.`OrderProduct` (`orderproductid`, `Order_orderid`, `Product_productid`, `porusware`, `quantity`) VALUES (05, 04, 04, 'no', 1);
+INSERT INTO `mydb`.`OrderProduct` (`orderproductid`, `Order_orderid`, `Product_productid`, `porusware`, `quantity`) VALUES (06, 04, 01, 'no', 1);
+
+COMMIT;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
