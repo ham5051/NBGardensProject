@@ -137,7 +137,7 @@ public class Order {
 					    	String employeename = rs.getString("employeename");
 					    	String orderstatus = rs.getString("orderstatus");
 					    	System.out.println("\nOrder ID: " + id + "\nOrder Date: " + orderdate + 
-					    						"\nTotal Price: £" + total +
+					    						"\nTotal Price: " + total +
 					    						"\nType of Order: " + order_type +
 					    						"\nEmployee: " + employeename + "\nOrder Status: " + orderstatus);
 					    } 
