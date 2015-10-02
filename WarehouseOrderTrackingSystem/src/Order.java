@@ -319,7 +319,7 @@ public class Order {
 			 	stmt.executeUpdate(sql1);
 	 			System.out.println("Inserted Values.");
 	
-				System.out.println("\nOrder ID: " + id + "\nOrder Date: " + orderdate + "\nTotal Price: £" 
+				System.out.println("\nOrder ID: " + id + "\nOrder Date: " + orderdate + "\nTotal Price: " 
 									+ ordertotal + "\nType of Order: " + order_type +
 					    			"\nEmployee: " + Employee_employeeid + "\nOrder Status: " + orderstatus);
 				//need to add products to the order that is created 
