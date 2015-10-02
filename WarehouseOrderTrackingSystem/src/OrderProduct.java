@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.Scanner;
 
 public class OrderProduct {
 	//order product attrributes
@@ -83,6 +84,72 @@ public class OrderProduct {
 		 
 		 return;
 	}
+	
+	
+	//create new order method 
+		public void createneworderline(int id){
+			 try { 
+				 
+				 boolean runCreateOrderLine = true;
+				 String orderLineAddChoice = null;
+				 
+				 while (runCreateOrderLine)
+				 {
+					 
+				 	if(db.conn==null){
+				 		db.connect();
+				 	}
+		 			System.out.println("\n Add Product to Order:");
+				 	Scanner scan = new Scanner(System.in);
+		 			System.out.println("\n New Order Products ID?");
+		 			int id2 = Integer.parseInt(scan.nextLine());
+		 			int order_orderid;
+		 			order_orderid = id;
+		 			System.out.println("\n Product ID?");
+		 			int product_productid = Integer.parseInt(scan.nextLine());
+		 			System.out.println("\n Porusware?");
+		 			String porusware = scan.nextLine();
+		 			System.out.println("\n Quantity?");
+		 			int quantity = Integer.parseInt(scan.nextLine());
+
+		 			
+					System.out.println("Inserting records into the table...");
+				 	Statement stmt = db.getConn().createStatement();
+				 	String sql1 = "INSERT INTO OrderProduct VALUES ('" + id2 +"','"+ id + "','" + product_productid + 
+				 			"','" + porusware + "','" + quantity + "')";
+				 	stmt.executeUpdate(sql1);
+		 			System.out.println("Inserted Values.");
+		
+					System.out.println("\nOrder Line ID: " + id2 + "\nOrder ID: " + id + "\nProduct ID: " 
+										+ product_productid + "\nPorusware: " + porusware +
+						    			"\nQuantity: " + quantity);
+					
+					// ask user if the want to exit
+					System.out.println("Add another order Line (y/n): ");
+					orderLineAddChoice = scan.nextLine();
+					
+					// Exit loop
+					if (orderLineAddChoice.equalsIgnoreCase("n"))
+					{
+						runCreateOrderLine = false;
+					}
+					
+				 } // exit run create order line loop
+					
+				 			
+			 } catch(NumberFormatException e){
+				 System.out.println("enter a valid number");
+				 return;
+			 } 
+			 catch (SQLException ex) {
+				 	
+		 			// Database error handling
+		 			System.out.println("Failed to connect to Database...");
+		 			System.out.println(ex);
+			 	}
+			 
+			 return;
+		}
 
 	/**
 	 * @return the orderproductid

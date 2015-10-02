@@ -17,6 +17,7 @@ public class Order {
 	
     //create order product instance
   OrderProduct orderproduct;
+  
 	
 	// overloading the constructor
 	public Order(WarehouseOrderTrackingApplication app)
@@ -160,8 +161,43 @@ public class Order {
 		 
 	}
 	
+	//method for establishing database connection and retrieving order data
+		public void orderget(){
+			 try { 
+				 	if(db.conn==null){
+				 		db.connect();
+				 	}
+				 	System.out.println("All Orders");
+				 	Statement stmt = db.getConn().createStatement();
+				 	String sql1 = "SELECT orderid, orderdate, ordertotal, order_type, employeename, orderstatus "
+				 			+ "FROM Orders, Employee WHERE Orders.Employee_employeeid = Employee.employeeid";
+				 			
+				 	ResultSet rs = stmt.executeQuery(sql1);
+				 			
+				 			while (rs.next()){
+						    	int id = rs.getInt("orderid");
+						    	String orderdate = rs.getString("orderdate");
+						    	int total = rs.getInt("ordertotal");
+						    	String order_type = rs.getString("order_type");
+						    	String employeename = rs.getString("employeename");
+						    	String orderstatus = rs.getString("orderstatus");
+						    	System.out.println("\nOrder ID: " + id + "\nOrder Date: " + orderdate + 
+						    						"\nTotal Price: £" + total +
+						    						"\nType of Order: " + order_type +
+						    						"\nEmployee: " + employeename + "\nOrder Status: " + orderstatus);
+						    }
+			 }
+	 catch (SQLException ex) {
+			 	
+		 			// Database error handling
+		 			System.out.println("Failed to connect to Database...");
+			 	}
+			 return ;
+			 
+		}
+		
 	
-	//customer orders
+	//view customer orders
 	public void establishOrderCustomer(){
 		 try { 
 			 	if(db.conn==null){
@@ -187,11 +223,13 @@ public class Order {
 			 	
 			 	try{
 			 			orderproduct.establishorderproduct(scan.nextLine().toString());
+			 			
 			 		} catch (NumberFormatException e){
 			 			
 			 			System.out.println("Failed to select a correct Order ID.");
 	
 			 		}
+
 			 			
 	 		} catch (SQLException ex) {
 		 	
@@ -201,6 +239,8 @@ public class Order {
 		 
 		 return;
 	}
+	
+	
 	//stock orders
 	public void establishOrderstock(){
 		 try { 
@@ -225,7 +265,8 @@ public class Order {
 					    } 
 			 			Scanner scan = new Scanner(System.in);
 			 			System.out.println("\nWhich order do you want to view?");
-			 	
+
+						
 			 	try{
 			 			orderproduct.establishorderproduct(scan.nextLine().toString());
 			 		} catch (NumberFormatException e){
@@ -233,6 +274,8 @@ public class Order {
 			 			System.out.println("Failed to select a correct Order ID.");
 	
 			 		}
+			 	//need to add products to the order that is created 
+	
 	 		} catch (SQLException ex) {
 		 	
 	 			// Database error handling
@@ -242,6 +285,7 @@ public class Order {
 		 return;
 	}
 
+	
 //create new order method 
 	public void createneworder(){
 		 try { 
@@ -249,16 +293,23 @@ public class Order {
 			 		db.connect();
 			 	}
 			 	Scanner scan = new Scanner(System.in);
-	 			System.out.println("\n New Order ID?");
-	 			int id = Integer.parseInt(scan.nextLine());
+			 	
+			 	System.out.println("\n New Order ID?");
+		 		int id = Integer.parseInt(scan.nextLine());
+	 
+	 			
 	 			System.out.println("\n New Order Date?");
 	 			String orderdate = scan.nextLine();
+	 			
 	 			System.out.println("\n New Order Total?");
 	 			int ordertotal = Integer.parseInt(scan.nextLine());
+	 			
 	 			System.out.println("\n New Order Type?");
 	 			String order_type = scan.nextLine();
+	 			
 	 			System.out.println("\n Employee ID?");
 	 			int Employee_employeeid = Integer.parseInt(scan.nextLine());
+	 			
 	 			System.out.println("\n Order Status?");
 	 			String orderstatus = scan.nextLine();
 	 			
@@ -268,13 +319,52 @@ public class Order {
 			 	stmt.executeUpdate(sql1);
 	 			System.out.println("Inserted Values.");
 	
-					    	/*System.out.println("\nOrder ID: " + id + "\nOrder Date: " + orderdate + 
-					    						"\nTotal Price: £" + ordertotal +
-					    						"\nType of Order: " + order_type +
-					    						"\nEmployee: " + Employee_employeeid);
-					    */
-			 			
-		 } catch (SQLException ex) {
+				System.out.println("\nOrder ID: " + id + "\nOrder Date: " + orderdate + "\nTotal Price: £" 
+									+ ordertotal + "\nType of Order: " + order_type +
+					    			"\nEmployee: " + Employee_employeeid + "\nOrder Status: " + orderstatus);
+				//need to add products to the order that is created 
+			 			orderproduct.createneworderline(id);
+		 }catch(NumberFormatException e){
+			 System.out.println("enter a valid number");
+			 return;
+		 } 
+		 catch (SQLException ex) {
+			 	
+	 			// Database error handling
+	 			System.out.println("Failed to connect to Database...");
+	 			System.out.println(ex);
+		 	}
+		 
+		 return;
+	}
+	
+	
+	//create new order method 
+	public void changestatus(){
+		 try { 
+			 	if(db.conn==null){
+			 		db.connect();
+			 	}
+			 	orderget();
+			 	Scanner scan = new Scanner(System.in);
+			 	
+			 	System.out.println("\n Order ID?");
+		 		int id = Integer.parseInt(scan.nextLine());
+	 
+	 			System.out.println("\nNew Order Status?");
+	 			String orderstatus = scan.nextLine();
+	 			
+				System.out.println("Inserting records into the table...");
+			 	Statement stmt = db.getConn().createStatement();
+			 	String sql1 = "UPDATE Orders SET orderstatus = '" + orderstatus + "' WHERE orderid = " + id;
+			 	stmt.executeUpdate(sql1);
+	 			System.out.println("Inserted Values.");
+	
+		 }catch(NumberFormatException e){
+			 System.out.println("enter a valid number");
+			 return;
+		 } 
+		 catch (SQLException ex) {
 			 	
 	 			// Database error handling
 	 			System.out.println("Failed to connect to Database...");
@@ -298,21 +388,5 @@ public class Order {
 		Employee_employeeid = employee_employeeid;
 	}
 
-	/*
-	System.out.println("Inserting records into the table...");
-			stmt = conn.createStatement();
-			String sql = "INSERT INTO Languages 
-			" + "VALUES (1, 'Java', 1992)";
-			stmt.executeUpdate(sql);
-			System.out.println("Inserted records 
-			into the table...");
 
-	//public String getEmployeename() {
-	//	return employeename;
-	//}
-
-	//public void setEmployee_employeeid(String employeename) {
-	//	this.employeename = employeename;
-	//}
-*/
 }

@@ -60,14 +60,15 @@ public class WarehouseOrderTrackingApplication {
     	String optionLog = null;
     	System.out.println("-------------------------------");
 		System.out.println("--------Choose Options---------");
-    	System.out.println("#1 to go to Products");	
-    	System.out.println("#2 to go to All Orders");
-    	System.out.println("#3 to go to Customer Orders");
-    	System.out.println("#4 to go to Stock Orders");
-    	System.out.println("#5 to go to Inventory");
-    	System.out.println("#6 to go to Inventory with name");
-    	System.out.println("#7 Create New Order");
-    	System.out.println("#8 Log Out");
+    	System.out.println(" #1       Products");	
+    	System.out.println(" #2       All Orders");
+    	System.out.println(" #3       Customer Orders");
+    	System.out.println(" #4       Stock Orders");
+    	System.out.println(" #5       Change Order Status ");
+    	System.out.println(" #6       Inventory");
+    	System.out.println(" #7       Create New Order");
+    	System.out.println(" #8       Log Out");
+    	System.out.println(" #9       Exit The System");
     	System.out.println("-------------------------------");
     	optionLog = scan.nextLine();
     	
@@ -81,7 +82,7 @@ public class WarehouseOrderTrackingApplication {
     	break;
     	case "4":order.establishOrderstock();
     	break;
-    	case "5":inventory.establishInventory();
+    	case "5":order.changestatus();
     	break;
     	case "6":inventory.establishInventory1();
     	break;
@@ -89,6 +90,8 @@ public class WarehouseOrderTrackingApplication {
     	break;
     	case "8": askLoginDetails();
     	break;
+    	case "9": System.out.println("Bye Bye see you again!");
+    		System.exit(0);
     	default: System.out.println("No option chose.");
     		break;
     	}
