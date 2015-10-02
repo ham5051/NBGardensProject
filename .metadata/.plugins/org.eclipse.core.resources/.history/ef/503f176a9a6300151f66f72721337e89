@@ -1,0 +1,40 @@
+import java.sql.*;
+
+public class OrderProduct {
+	//order product attrributes
+	private int orderproductid;
+	private String porusware;
+	private int quantity;
+	
+	
+	//class constructors
+	public OrderProduct(){
+		orderproductid = 0;
+		porusware = null;
+		quantity = 0;
+	}
+	
+	//getter for porusware
+	public String getPorusware(){
+		return porusware;
+	}
+
+	//setter for porusware
+	public void setPorusware(String porusware){
+		this.porusware = porusware;
+		return;
+	}
+	
+	//getter for quantity
+	public int getQuantity(){
+		return quantity;
+	}
+
+	//setter for quantity
+	public void setQuantity(int quantity){
+		this.quantity = quantity;
+		return;
+	}
+	
+	
+}

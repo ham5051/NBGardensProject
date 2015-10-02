@@ -1,0 +1,142 @@
+import java.sql.*;
+
+public class OrderProduct {
+	//order product attrributes
+	private int orderproductid;
+	private String porusware;
+	private int quantity;
+	private int productid;
+	private int orderid;
+	public Database db;
+	private WarehouseOrderTrackingApplication app;
+	
+	// overloading the constructor
+		public OrderProduct(WarehouseOrderTrackingApplication app)
+		{
+			// initialise app
+			this.setApp(app);
+			db = new Database();
+		}
+	
+	//class constructors
+	public OrderProduct(){
+		setOrderproductid(0);
+		porusware = null;
+		quantity = 0;
+		productid = 0;
+		orderid = 0;
+		db = new Database();
+		
+	}
+	
+	//getter for porusware
+	public String getPorusware(){
+		return porusware;
+	}
+
+	//setter for porusware
+	public void setPorusware(String porusware){
+		this.porusware = porusware;
+		return;
+	}
+	
+	//getter for quantity
+	public int getQuantity(){
+		return quantity;
+	}
+
+	//setter for quantity
+	public void setQuantity(int quantity){
+		this.quantity = quantity;
+		return;
+	}
+	
+	public void establishorderproduct(){
+		 try { 
+			 	if(db.conn==null){
+			 		db.connect();
+			 	}
+			 	System.out.println("Customer Orders");
+			 	Statement stmt = db.getConn().createStatement();
+			 	String sql1 = "SELECT orderid,  "
+			 			+ "FROM Orderproduct Where order_type = 'customer' ";
+			 			ResultSet rs = stmt.executeQuery(sql1);
+			 			
+			 			while (rs.next()){
+					    	int id = rs.getInt("orderid");
+					    	String orderdate = rs.getString("orderdate");
+					    	int total = rs.getInt("ordertotal");
+					    	//String employeename = rs.getString("employeename");
+					    	String order_type = rs.getString("order_type");
+					    	System.out.println("\n Order ID: " + id + "\n Order Date: " + orderdate + 
+					    						"\n Total Price: £" + total);
+					    } 
+			 			
+			 			
+	 		} catch (SQLException ex) {
+		 	
+	 			// Database error handling
+	 			System.out.println("Failed to connect to Database...");
+		 	}
+		 
+		 return;
+	}
+
+	/**
+	 * @return the orderproductid
+	 */
+	public int getOrderproductid() {
+		return orderproductid;
+	}
+
+	/**
+	 * @param orderproductid the orderproductid to set
+	 */
+	public void setOrderproductid(int orderproductid) {
+		this.orderproductid = orderproductid;
+	}
+
+	/**
+	 * @return the productid
+	 */
+	public int getProductid() {
+		return productid;
+	}
+
+	/**
+	 * @param productid the productid to set
+	 */
+	public void setProductid(int productid) {
+		this.productid = productid;
+	}
+
+	/**
+	 * @return the orderid
+	 */
+	public int getOrderid() {
+		return orderid;
+	}
+
+	/**
+	 * @param orderid the orderid to set
+	 */
+	public void setOrderid(int orderid) {
+		this.orderid = orderid;
+	}
+
+	/**
+	 * @return the app
+	 */
+	public WarehouseOrderTrackingApplication getApp() {
+		return app;
+	}
+
+	/**
+	 * @param app the app to set
+	 */
+	public void setApp(WarehouseOrderTrackingApplication app) {
+		this.app = app;
+	}
+	
+	
+}

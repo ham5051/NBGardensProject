@@ -1,0 +1,227 @@
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+//employee variables- attributes
+public class Order {
+	private int orderid;
+	private String orderdate;
+	private int ordertotal;
+	private String order_type;
+	private String employeename;
+	public Database db;
+	private WarehouseOrderTrackingApplication app;
+	ArrayList orders = new ArrayList();
+	
+    //create order product instance
+  OrderProduct orderproduct;
+	
+	// overloading the constructor
+	public Order(WarehouseOrderTrackingApplication app)
+	{
+		// initialise app
+		this.app = app;
+		//this.setApp(app);
+		db = new Database();
+		orderproduct = new OrderProduct();
+	}
+	
+	//class constructor
+	public Order(){
+		orderid = 0;
+		orderdate = null;
+		ordertotal = 0;
+		order_type = null;
+		db = new Database();
+		employeename = null;
+		
+	
+	}
+	/**
+	 * @return the employeename
+	 */
+	public String getEmployeename() {
+		return employeename;
+	}
+
+	/**
+	 * @param employeename the employeename to set
+	 */
+	public void setEmployeename(String employeename) {
+		this.employeename = employeename;
+	}
+
+	//get order id method
+	public int getOrderid(){
+		return orderid;
+	}
+	
+	//get setting method
+	public void setOrderid(int orderid){
+		this.orderid = orderid;
+		return;
+	}
+	
+	//getter for order date
+	public String getOrderdate(){
+	return orderdate;
+	}
+	
+	//setter for order date
+	public void setOrderdate(String orderdate){
+		this.orderdate = orderdate;
+		return;
+	}
+	//getter for order total
+	public int getOrdertotal() {
+		return ordertotal;
+	}
+	 
+	//setter for order total
+	public void setOrdertotal(int ordertotal) {
+		this.ordertotal = ordertotal;
+	}
+	
+	//getter for ordertype
+	public String getOrder_type() {
+		return order_type;
+	}
+	
+	//setter for order type
+	public void setOrder_type(String order_type) {
+		this.order_type = order_type;
+	}
+	
+	//getter for whota 
+	public WarehouseOrderTrackingApplication getApp() {
+		return app;
+	}
+
+	//setter for whota
+	public void setApp(WarehouseOrderTrackingApplication app) {
+		this.app = app;
+	}
+	
+	//method for establishing database connection and retrieving order data
+	public void establishOrderDatabase(){
+		 try { 
+			 	if(db.conn==null){
+			 		db.connect();
+			 	}
+			 	System.out.println("All Orders");
+			 	Statement stmt = db.getConn().createStatement();
+			 	String sql1 = "SELECT orderid, orderdate, ordertotal, order_type, employeename "
+			 			+ "FROM Orders, Employee WHERE Orders.Employee_employeeid = Employee.employeeid";
+			 			
+			 	ResultSet rs = stmt.executeQuery(sql1);
+			 			
+			 			while (rs.next()){
+					    	int id = rs.getInt("orderid");
+					    	orders.add(id);
+					    	String orderdate = rs.getString("orderdate");
+					    	int total = rs.getInt("ordertotal");
+					    	String order_type = rs.getString("order_type");
+					    	String employeename = rs.getString("employeename");
+					    	System.out.println("\nOrder ID: " + id + "\nOrder Date: " + orderdate + 
+					    						"\nTotal Price: £" + total +
+					    						"\nType of Order: " + order_type +
+					    						"\nEmployee: " + employeename);
+					    }
+			 		
+			 			Scanner scan = new Scanner(System.in);
+			 			System.out.println("Which order do you want to view?");
+			 			//for(int i =0; i<orders.size(); i++){
+			 				//if(scan.nextLine().equalsIgnoreCase(orders.get(i).toString())){
+			 	//call the order product function to view the products within each order 
+			 				//	orderproduct.establishorderproduct(orderid);
+
+			 			//	}
+			 		//	}
+			 			
+			 			orderproduct.establishorderproduct(scan.nextLine().toString());
+	 		} catch (SQLException ex) {
+		 	
+	 			// Database error handling
+	 			System.out.println("Failed to connect to Database...");
+		 	}
+		 return ;
+		 
+	}
+	
+	
+	//customer orders
+	public void establishOrderCustomer(){
+		 try { 
+			 	if(db.conn==null){
+			 		db.connect();
+			 	}
+			 	System.out.println("Customer Orders");
+			 	Statement stmt = db.getConn().createStatement();
+			 	String sql1 = "SELECT orderid, orderdate, ordertotal, Employee_employeeid, order_type "
+			 			+ "FROM Orders Where order_type = 'customer' ";
+			 			//+ "WHERE Order.Employee_employee_id = Employee.employeeid";
+			 			ResultSet rs = stmt.executeQuery(sql1);
+			 			
+			 			while (rs.next()){
+					    	int id = rs.getInt("orderid");
+					    	String orderdate = rs.getString("orderdate");
+					    	int total = rs.getInt("ordertotal");
+					    	//String employeename = rs.getString("employeename");
+					    	String order_type = rs.getString("order_type");
+					    	System.out.println("\n Order ID: " + id + "\n Order Date: " + orderdate + 
+					    						"\n Total Price: £" + total);
+					    } 
+			 			
+			 			
+	 		} catch (SQLException ex) {
+		 	
+	 			// Database error handling
+	 			System.out.println("Failed to connect to Database...");
+		 	}
+		 
+		 return;
+	}
+	//stock orders
+	public void establishOrderstock(){
+		 try { 
+			 	if(db.conn==null){
+			 		db.connect();
+			 	}
+			 	System.out.println("Stock Orders");
+			 	Statement stmt = db.getConn().createStatement();
+			 	String sql1 = "SELECT orderid, orderdate, ordertotal, Employee_employeeid, order_type "
+			 			+ "FROM Orders Where order_type = 'stock' ";
+			 			//+ "WHERE Order.Employee_employee_id = Employee.employeeid";
+			 			ResultSet rs = stmt.executeQuery(sql1);
+			 			
+			 			while (rs.next()){
+					    	int id = rs.getInt("orderid");
+					    	String orderdate = rs.getString("orderdate");
+					    	int total = rs.getInt("ordertotal");
+					    	int totalDivBy5 = total / 5; 
+					    	String order_type = rs.getString("order_type");
+					    	System.out.println("\n Order ID: " + id + "\n Order Date: " + orderdate + 
+					    						"\n Total Price: £" + totalDivBy5);
+					    } 
+	 		} catch (SQLException ex) {
+		 	
+	 			// Database error handling
+	 			System.out.println("Failed to connect to Database...");
+		 	}
+		 
+		 return;
+	}
+
+
+
+	
+
+	//public String getEmployeename() {
+	//	return employeename;
+	//}
+
+	//public void setEmployee_employeeid(String employeename) {
+	//	this.employeename = employeename;
+	//}
+
+}

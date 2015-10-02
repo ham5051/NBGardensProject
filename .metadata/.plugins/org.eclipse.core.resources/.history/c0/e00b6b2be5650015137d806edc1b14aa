@@ -1,0 +1,143 @@
+import java.sql.*;
+
+public class OrderProduct {
+	//order product attrributes
+	private int orderproductid;
+	private String porusware;
+	private int quantity;
+	private int Product_productid;
+	private int Order_orderid;
+	public Database db;
+	private WarehouseOrderTrackingApplication app;
+	
+	// overloading the constructor
+		public OrderProduct(WarehouseOrderTrackingApplication app)
+		{
+			// initialise app
+			this.setApp(app);
+			db = new Database();
+		}
+	
+	//class constructors
+	public OrderProduct(){
+		orderproductid = 0;
+		porusware = null;
+		quantity = 0;
+		Product_productid = 0;
+		Order_orderid = 0;
+		db = new Database();
+		
+	}
+	
+	//getter for porusware
+	public String getPorusware(){
+		return porusware;
+	}
+
+	//setter for porusware
+	public void setPorusware(String porusware){
+		this.porusware = porusware;
+		return;
+	}
+	
+	//getter for quantity
+	public int getQuantity(){
+		return quantity;
+	}
+
+	//setter for quantity
+	public void setQuantity(int quantity){
+		this.quantity = quantity;
+		return;
+	}
+	
+	public void establishorderproduct(){
+		 try { 
+			 	if(db.conn==null){
+			 		db.connect();
+			 	}
+			 	System.out.println("Order Lines");
+			 	Statement stmt = db.getConn().createStatement();
+			 	String sql1 = "SELECT orderproductid, Order_orderid, Product_productid, porusware, quantity "
+			 			+ "FROM Orderproduct";
+			 			ResultSet rs = stmt.executeQuery(sql1);
+			 			
+			 			while (rs.next()){
+					    	int id = rs.getInt("orderproductid");
+					    	String order_orderid = rs.getString("Order_orderid");
+					    	int product_productid = rs.getInt("Product_productid");
+					    	String porusware = rs.getString("porusware");
+					    	int quantity = rs.getInt("quantity");
+					    	System.out.println(" Order Product ID: " + id + " Order ID: " + order_orderid + 
+					    						" Product ID: " + product_productid + "Porusware: " + porusware + " Quantity: " + quantity);
+					    } 
+			 			
+			 			
+	 		} catch (SQLException ex) {
+		 	
+	 			// Database error handling
+	 			System.out.println("Failed to connect to Database...");
+		 	}
+		 
+		 return;
+	}
+
+	/**
+	 * @return the orderproductid
+	 */
+	public int getOrderproductid() {
+		return orderproductid;
+	}
+
+	/**
+	 * @param orderproductid the orderproductid to set
+	 */
+	public void setOrderproductid(int orderproductid) {
+		this.orderproductid = orderproductid;
+	}
+
+
+	/**
+	 * @return the app
+	 */
+	public WarehouseOrderTrackingApplication getApp() {
+		return app;
+	}
+
+	/**
+	 * @param app the app to set
+	 */
+	public void setApp(WarehouseOrderTrackingApplication app) {
+		this.app = app;
+	}
+
+	/**
+	 * @return the product_productid
+	 */
+	public int getProduct_productid() {
+		return Product_productid;
+	}
+
+	/**
+	 * @param product_productid the product_productid to set
+	 */
+	public void setProduct_productid(int product_productid) {
+		Product_productid = product_productid;
+	}
+
+	/**
+	 * @return the order_orderid
+	 */
+	public int getOrder_orderid() {
+		return Order_orderid;
+	}
+
+	/**
+	 * @param order_orderid the order_orderid to set
+	 */
+	public void setOrder_orderid(int order_orderid) {
+		Order_orderid = order_orderid;
+	}
+	
+	
+}
