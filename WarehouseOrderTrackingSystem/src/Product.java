@@ -74,7 +74,7 @@ public class Product {
 						    	String productname = rs.getString("productname");
 						    	int price = rs.getInt("price");
 						    	System.out.println("\n Product id: " + id + "\n Product: " 
-						    	+ productname + "\n Price: £" + price );
+						    	+ productname + "\n Price: " + price );
 						    } 
 				 			rs.close();
 		 		} catch (SQLException ex) {
@@ -87,25 +87,6 @@ public class Product {
 		}
 	 
 
-	/*public void accessBD() {
-
-		  
-		  System.out.println("Looking for records in the table...");
-			stmt = conn.createStatement();
-			String sql1 = "SELECT productid, productname, price FROM Product";
-		    ResultSet rs = stmt.executeQuery(sql1);
-		    while (rs.next()){
-		    	int id = rs.getInt("productid");
-		    	String productname = rs.getString("productname");
-		    	int price = rs.getInt("price");
-		    	System.out.println("Product id: " + id + " Product: " + productname + " Price: £" + price );
-		    } 
-			
-		 }
-		  catch (SQLException | ClassNotFoundException ex) {
-		     System.out.println("failure to connect"); // Seperate routine to display errors.
-		  }
-		 }*/
 	
 
 }

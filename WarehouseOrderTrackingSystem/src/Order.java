@@ -182,7 +182,7 @@ public class Order {
 						    	String employeename = rs.getString("employeename");
 						    	String orderstatus = rs.getString("orderstatus");
 						    	System.out.println("\nOrder ID: " + id + "\nOrder Date: " + orderdate + 
-						    						"\nTotal Price: £" + total +
+						    						"\nTotal Price: " + total +
 						    						"\nType of Order: " + order_type +
 						    						"\nEmployee: " + employeename + "\nOrder Status: " + orderstatus);
 						    }
@@ -216,7 +216,7 @@ public class Order {
 					    	String employeename = rs.getString("employeename");
 					    	String orderstatus = rs.getString("orderstatus");
 					    	System.out.println("\n Order ID: " + id + "\n Order Date: " + orderdate + 
-					    						"\n Total Price: £" + total + "\n Employee: " + employeename + "\n Order Status: " + orderstatus);
+					    						"\n Total Price: " + total + "\n Employee: " + employeename + "\n Order Status: " + orderstatus);
 					    } 
 			 			Scanner scan = new Scanner(System.in);
 			 			System.out.println("\nWhich order do you want to view?");
@@ -261,7 +261,7 @@ public class Order {
 					    	String employeename = rs.getString("employeename");
 					    	String orderstatus = rs.getString("orderstatus");
 					    	System.out.println("\n Order ID: " + id + "\n Order Date: " + orderdate + 
-					    						"\n Total Price: £" + totalDivBy5 +  "\n Employee: " + employeename + "\n Order Status: " + orderstatus);
+					    						"\n Total Price: " + totalDivBy5 +  "\n Employee: " + employeename + "\n Order Status: " + orderstatus);
 					    } 
 			 			Scanner scan = new Scanner(System.in);
 			 			System.out.println("\nWhich order do you want to view?");
